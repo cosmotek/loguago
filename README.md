@@ -24,8 +24,20 @@ func main() {
 	zlogger := zerolog.New(os.Stdout)
 	logger := loguago.NewLogger(zlogger.With().Str("unit", "my-lua-module").Logger())
 
-	state.PreloadModule("stackd.logger", logger.Loader)
+	state.PreloadModule("logger", logger.Loader)
   
   // the rest of your program lives here
   ...
 }
+```
+
+```lua
+local logger = require("logger")
+
+-- the following functions all have the same signature but different names to
+-- allow for log levelling.
+logger.info("msg", {name="seth", isCoder=true})
+logger.debug
+logger.warn
+logger.error
+```
