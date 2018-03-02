@@ -35,9 +35,15 @@ func main() {
 local logger = require("logger")
 
 -- the following functions all have the same signature but different names to
--- allow for log levelling.
+-- allow for log levelling. `logger.<level>(message, fields)`
 logger.info("msg", {name="seth", isCoder=true})
 logger.debug
 logger.warn
 logger.error
+
+-- basically each logging function takes a message and a table with an indeterminate
+-- number of fields to provide context within the log messages. For example, (depending
+-- on how you configure the zerolog instance) this:
+logger.info("I like fruit!", {name="seth", age=1000, male=true, engineer=true})
+-- should produce something like: "1494567715 |INFO| I like fruit! name=seth age=1000 male=true engineer=true"
 ```
