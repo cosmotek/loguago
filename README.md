@@ -3,6 +3,8 @@ Zerolog wrapper for Gopher-Lua
 
 [godoc](https://godoc.org/github.com/rucuriousyet/loguago)
 
+For those interested in helping out, I will gladly accept recommendations, ideas and PRs!
+
 Example usage:
 ```go
 package main
@@ -21,13 +23,17 @@ func main() {
 	state := lua.NewState()
 	defer state.Close()
 
-	zlogger := zerolog.New(os.Stdout)
-	logger := loguago.NewLogger(zlogger.With().Str("unit", "my-lua-module").Logger())
+	// create a standard zerolog instance with your desired config (just an example)
+	zlogger := zerolog.New(os.Stdout).With().Str("unit", "my-lua-module").Logger()
+	
+	// wrap the zerolog instance as a loguago logger
+	logger := loguago.NewLogger(zlogger)
 
+	// load the loguago logger as a Gopher-Lua module with the module name "logger" (used for require)
 	state.PreloadModule("logger", logger.Loader)
   
-  // the rest of your program lives here
-  ...
+  	// the rest of your program lives here
+  	// ...
 }
 ```
 
@@ -41,9 +47,9 @@ logger.debug
 logger.warn
 logger.error
 
--- basically each logging function takes a message and a table with an indeterminate
+-- each logging function takes a message and a table with an indeterminate
 -- number of fields to provide context within the log messages. For example, (depending
 -- on how you configure the zerolog instance) this:
-logger.info("I like fruit!", {name="seth", age=1000, male=true, engineer=true})
--- should produce something like: "1494567715 |INFO| I like fruit! name=seth age=1000 male=true engineer=true"
+logger.info("foo bar!", {name="seth", age=1000, engineer=true})
+-- should produce something like: "1494567715 |INFO| foo bar! name=seth age=1000 engineer=true"
 ```
