@@ -1,7 +1,7 @@
 # loguago
 Zerolog wrapper for Gopher-Lua | [godoc](https://godoc.org/github.com/rucuriousyet/loguago)
 
-For those interested in helping out, I will gladly accept recommendations, ideas and PRs!
+Contributions welcome!
 
 Example usage:
 ```go
